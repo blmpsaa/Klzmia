@@ -447,7 +447,7 @@ do
             BorderSizePixel = 0;
             Size = UDim2.new(0, 27, 0, 13);
             ZIndex = 5;
-            Image = 'rbxassetid://12977615774';
+            Image = 'http://www.roblox.com/asset/?id=12977615774';
             Visible = not not Info.Transparency;
             Parent = DisplayFrame;
         });
@@ -516,23 +516,22 @@ do
 
         local CursorOuter = Library:Create('ImageLabel', {
             AnchorPoint = Vector2.new(0.5, 0.5);
-            Size = UDim2.new(0, 16, 0, 16);  -- Larger size to match original triangle
+            Size = UDim2.new(0, 6, 0, 6);
             BackgroundTransparency = 1;
-            Image = 'rbxassetid://9619665977';  -- Assuming triangle image asset
-            ImageColor3 = Color3.new(0, 0, 0);  -- Outer cursor color (black)
+            Image = 'http://www.roblox.com/asset/?id=9619665977';
+            ImageColor3 = Color3.new(0, 0, 0);
             ZIndex = 19;
             Parent = SatVibMap;
         });
-        
+
         local CursorInner = Library:Create('ImageLabel', {
-            Size = UDim2.new(0, CursorOuter.Size.X.Offset - 4, 0, CursorOuter.Size.Y.Offset - 4);  -- Smaller triangle
-            Position = UDim2.new(0, 2, 0, 2);  -- Position it inside the outer cursor
+            Size = UDim2.new(0, CursorOuter.Size.X.Offset - 2, 0, CursorOuter.Size.Y.Offset - 2);
+            Position = UDim2.new(0, 1, 0, 1);
             BackgroundTransparency = 1;
-            Image = 'rbxassetid://9619665977';  -- Assuming triangle image asset
-            ImageColor3 = Color3.new(0, 0, 1);  -- Blue color for the inner cursor
+            Image = 'http://www.roblox.com/asset/?id=9619665977';
             ZIndex = 20;
             Parent = CursorOuter;
-        });
+        })
 
         local HueSelectorOuter = Library:Create('Frame', {
             BorderColor3 = Color3.new(0, 0, 0);
@@ -575,8 +574,6 @@ do
             ZIndex = 18,
             Parent = HueBoxOuter;
         });
-
--- end I think
 
         Library:Create('UIGradient', {
             Color = ColorSequence.new({
@@ -642,7 +639,7 @@ do
             Library:Create('ImageLabel', {
                 BackgroundTransparency = 1;
                 Size = UDim2.new(1, 0, 1, 0);
-                Image = 'rbxassetid://12978095818';
+                Image = 'http://www.roblox.com/asset/?id=12978095818';
                 ZIndex = 20;
                 Parent = TransparencyBoxInner;
             });
@@ -2241,7 +2238,7 @@ do
             BackgroundTransparency = 1;
             Position = UDim2.new(1, -16, 0.5, 0);
             Size = UDim2.new(0, 12, 0, 12);
-            Image = 'rbxassetid://6282522798';
+            Image = 'http://www.roblox.com/asset/?id=6282522798';
             ZIndex = 8;
             Parent = DropdownInner;
         });
@@ -3524,7 +3521,6 @@ function Library:CreateWindow(...)
             -- A bit scuffed, but if we're going from not toggled -> toggled we want to show the frame immediately so that the fade is visible.
             Outer.Visible = true;
 
-            
 
         for _, Desc in next, Outer:GetDescendants() do
             local Properties = {};
@@ -3559,7 +3555,7 @@ function Library:CreateWindow(...)
                 TweenService:Create(Desc, TweenInfo.new(FadeTime, Enum.EasingStyle.Linear), { [Prop] = Toggled and Cache[Prop] or 1 }):Play();
             end;
         end;
-    end
+
         task.wait(FadeTime);
 
         Outer.Visible = Toggled;
