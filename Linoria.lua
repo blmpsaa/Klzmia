@@ -3559,7 +3559,7 @@ function Library:CreateWindow(...)
                 TweenService:Create(Desc, TweenInfo.new(FadeTime, Enum.EasingStyle.Linear), { [Prop] = Toggled and Cache[Prop] or 1 }):Play();
             end;
         end;
-
+    end
         task.wait(FadeTime);
 
         Outer.Visible = Toggled;
