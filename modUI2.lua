@@ -1,6 +1,6 @@
 local CoreGui = game:GetService("CoreGui")
 local RunService = game:GetService("RunService")
-local DESIRED_COLOR = Color3.fromRGB(81, 47, 84)
+local COLOR = Color3.fromRGB(81, 47, 84)
 local PlayerButton
 local function FindButton()
 	local Success, Result = pcall(function()
@@ -25,8 +25,8 @@ if not PlayerButton then
 	return
 end
 local function EnforceColor()
-	if PlayerButton.BackgroundColor3 ~= DESIRED_COLOR then
-		PlayerButton.BackgroundColor3 = DESIRED_COLOR
+	if PlayerButton.BackgroundColor3 ~= COLOR then
+		PlayerButton.BackgroundColor3 = COLOR
 	end
 end
 local Connection = RunService.Heartbeat:Connect(EnforceColor)
