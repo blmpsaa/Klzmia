@@ -29,6 +29,7 @@ local function ApplyGlobalMods()
         MenuContainer.BackgroundColor3 = TARGET_COLOR
         
         local BottomButtons = MenuContainer.BottomButtonFrame
+        BottomButtons.LeaveGameButtonButton.Border.Transparency = 0
         BottomButtons.LeaveGameButtonButton.Border.Thickness = 4
         BottomButtons.LeaveGameButtonButton.Border.Color = CHAT_TEXT_COLOR
         BottomButtons.LeaveGameButtonButton.LeaveGameButtonTextLabel.TextColor3 = CHAT_TEXT_COLOR
