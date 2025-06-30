@@ -2238,7 +2238,7 @@ do
             BackgroundTransparency = 1;
             Position = UDim2.new(1, -16, 0.5, 0);
             Size = UDim2.new(0, 12, 0, 12);
-            Image = 'http://www.roblox.com/asset/?id=90642831116747';
+            Image = 'http://www.roblox.com/asset/?id=137276937227097';
             ZIndex = 8;
             Parent = DropdownInner;
         });
