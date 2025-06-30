@@ -2148,7 +2148,7 @@ do
         return Slider;
     end;
 
-    function Funcs:AddDDown(Idx, Info)
+    function Funcs:AddDropdown(Idx, Info)
         if Info.SpecialType == 'Player' then
             Info.Values = GetPlayersString();
             Info.AllowNull = true;
@@ -2157,18 +2157,18 @@ do
             Info.AllowNull = true;
         end;
 
-        assert(Info.Values, 'AddDdown: Missing ddown value list.');
-        assert(Info.AllowNull or Info.Default, 'AddDdown: Missing default value. Pass `AllowNull` as true if this was intentional.')
+        assert(Info.Values, 'AddDropdown: Missing dropdown value list.');
+        assert(Info.AllowNull or Info.Default, 'AddDropdown: Missing default value. Pass `AllowNull` as true if this was intentional.')
 
         if (not Info.Text) then
             Info.Compact = true;
         end;
 
-        local Ddown = {
+        local Dropdown = {
             Values = Info.Values;
             Value = Info.Multi and {};
             Multi = Info.Multi;
-            Type = 'Ddown';
+            Type = 'Dropdown';
             SpecialType = Info.SpecialType; -- can be either 'Player' or 'Team'
             Callback = Info.Callback or function(Value) end;
         };
@@ -2179,7 +2179,7 @@ do
         local RelativeOffset = 0;
 
         if not Info.Compact then
-            local DdownLabel = Library:CreateLabel({
+            local DropdownLabel = Library:CreateLabel({
                 Size = UDim2.new(1, 0, 0, 10);
                 TextSize = 14;
                 Text = Info.Text;
@@ -2198,7 +2198,7 @@ do
             end;
         end;
 
-        local DdownOuter = Library:Create('Frame', {
+        local DropdownOuter = Library:Create('Frame', {
             BackgroundColor3 = Color3.new(0, 0, 0);
             BorderColor3 = Color3.new(0, 0, 0);
             Size = UDim2.new(1, -4, 0, 20);
@@ -2206,20 +2206,20 @@ do
             Parent = Container;
         });
 
-        Library:AddToRegistry(DdownOuter, {
+        Library:AddToRegistry(DropdownOuter, {
             BorderColor3 = 'Black';
         });
 
-        local DdownInner = Library:Create('Frame', {
+        local DropdownInner = Library:Create('Frame', {
             BackgroundColor3 = Library.MainColor;
             BorderColor3 = Library.OutlineColor;
             BorderMode = Enum.BorderMode.Inset;
             Size = UDim2.new(1, 0, 1, 0);
             ZIndex = 6;
-            Parent = DdownOuter;
+            Parent = DropdownOuter;
         });
 
-        Library:AddToRegistry(DdownInner, {
+        Library:AddToRegistry(DropdownInner, {
             BackgroundColor3 = 'MainColor';
             BorderColor3 = 'OutlineColor';
         });
@@ -2230,17 +2230,17 @@ do
                 ColorSequenceKeypoint.new(1, Color3.fromRGB(212, 212, 212))
             });
             Rotation = 90;
-            Parent = DdownInner;
+            Parent = DropdownInner;
         });
 
-        local DdownArrow = Library:Create('ImageLabel', {
+        local DropdownArrow = Library:Create('ImageLabel', {
             AnchorPoint = Vector2.new(0, 0.5);
             BackgroundTransparency = 1;
             Position = UDim2.new(1, -16, 0.5, 0);
             Size = UDim2.new(0, 12, 0, 12);
-            Image = '';
+            Image = 'http://www.roblox.com/asset/?id=90642831116747';
             ZIndex = 8;
-            Parent = DdownInner;
+            Parent = DropdownInner;
         });
 
         local ItemList = Library:CreateLabel({
@@ -2251,19 +2251,19 @@ do
             TextXAlignment = Enum.TextXAlignment.Left;
             TextWrapped = true;
             ZIndex = 7;
-            Parent = DdownInner;
+            Parent = DropdownInner;
         });
 
-        Library:OnHighlight(DdownOuter, DdownOuter,
+        Library:OnHighlight(DropdownOuter, DropdownOuter,
             { BorderColor3 = 'AccentColor' },
             { BorderColor3 = 'Black' }
         );
 
         if type(Info.Tooltip) == 'string' then
-            Library:AddToolTip(Info.Tooltip, DdownOuter)
+            Library:AddToolTip(Info.Tooltip, DropdownOuter)
         end
 
-        local MAX_Ddown_ITEMS = 8;
+        local MAX_DROPDOWN_ITEMS = 8;
 
         local ListOuter = Library:Create('Frame', {
             BackgroundColor3 = Color3.new(0, 0, 0);
@@ -2274,17 +2274,17 @@ do
         });
 
         local function RecalculateListPosition()
-            ListOuter.Position = UDim2.fromOffset(DdownOuter.AbsolutePosition.X, DdownOuter.AbsolutePosition.Y + DdownOuter.Size.Y.Offset + 1);
+            ListOuter.Position = UDim2.fromOffset(DropdownOuter.AbsolutePosition.X, DropdownOuter.AbsolutePosition.Y + DropdownOuter.Size.Y.Offset + 1);
         end;
 
         local function RecalculateListSize(YSize)
-            ListOuter.Size = UDim2.fromOffset(DdownOuter.AbsoluteSize.X, YSize or (MAX_Ddown_ITEMS * 20 + 2))
+            ListOuter.Size = UDim2.fromOffset(DropdownOuter.AbsoluteSize.X, YSize or (MAX_DROPDOWN_ITEMS * 20 + 2))
         end;
 
         RecalculateListPosition();
         RecalculateListSize();
 
-        DdownOuter:GetPropertyChangedSignal('AbsolutePosition'):Connect(RecalculateListPosition);
+        DropdownOuter:GetPropertyChangedSignal('AbsolutePosition'):Connect(RecalculateListPosition);
 
         local ListInner = Library:Create('Frame', {
             BackgroundColor3 = Library.MainColor;
@@ -2327,41 +2327,41 @@ do
             Parent = Scrolling;
         });
 
-        function Ddown:Display()
-            local Values = Ddown.Values;
+        function Dropdown:Display()
+            local Values = Dropdown.Values;
             local Str = '';
 
             if Info.Multi then
                 for Idx, Value in next, Values do
-                    if Ddown.Value[Value] then
+                    if Dropdown.Value[Value] then
                         Str = Str .. Value .. ', ';
                     end;
                 end;
 
                 Str = Str:sub(1, #Str - 2);
             else
-                Str = Ddown.Value or '';
+                Str = Dropdown.Value or '';
             end;
 
             ItemList.Text = (Str == '' and '--' or Str);
         end;
 
-        function Ddown:GetActiveValues()
+        function Dropdown:GetActiveValues()
             if Info.Multi then
                 local T = {};
 
-                for Value, Bool in next, Ddown.Value do
+                for Value, Bool in next, Dropdown.Value do
                     table.insert(T, Value);
                 end;
 
                 return T;
             else
-                return Ddown.Value and 1 or 0;
+                return Dropdown.Value and 1 or 0;
             end;
         end;
 
-        function Ddown:BuildDdownList()
-            local Values = Ddown.Values;
+        function Dropdown:BuildDropdownList()
+            local Values = Dropdown.Values;
             local Buttons = {};
 
             for _, Element in next, Scrolling:GetChildren() do
@@ -2411,16 +2411,16 @@ do
                 local Selected;
 
                 if Info.Multi then
-                    Selected = Ddown.Value[Value];
+                    Selected = Dropdown.Value[Value];
                 else
-                    Selected = Ddown.Value == Value;
+                    Selected = Dropdown.Value == Value;
                 end;
 
                 function Table:UpdateButton()
                     if Info.Multi then
-                        Selected = Ddown.Value[Value];
+                        Selected = Dropdown.Value[Value];
                     else
-                        Selected = Ddown.Value == Value;
+                        Selected = Dropdown.Value == Value;
                     end;
 
                     ButtonLabel.TextColor3 = Selected and Library.AccentColor or Library.FontColor;
@@ -2431,23 +2431,23 @@ do
                     if Input.UserInputType == Enum.UserInputType.MouseButton1 then
                         local Try = not Selected;
 
-                        if Ddown:GetActiveValues() == 1 and (not Try) and (not Info.AllowNull) then
+                        if Dropdown:GetActiveValues() == 1 and (not Try) and (not Info.AllowNull) then
                         else
                             if Info.Multi then
                                 Selected = Try;
 
                                 if Selected then
-                                    Ddown.Value[Value] = true;
+                                    Dropdown.Value[Value] = true;
                                 else
-                                    Ddown.Value[Value] = nil;
+                                    Dropdown.Value[Value] = nil;
                                 end;
                             else
                                 Selected = Try;
 
                                 if Selected then
-                                    Ddown.Value = Value;
+                                    Dropdown.Value = Value;
                                 else
-                                    Ddown.Value = nil;
+                                    Dropdown.Value = nil;
                                 end;
 
                                 for _, OtherButton in next, Buttons do
@@ -2456,10 +2456,10 @@ do
                             end;
 
                             Table:UpdateButton();
-                            Ddown:Display();
+                            Dropdown:Display();
 
-                            Library:SafeCallback(Ddown.Callback, Ddown.Value);
-                            Library:SafeCallback(Ddown.Changed, Ddown.Value);
+                            Library:SafeCallback(Dropdown.Callback, Dropdown.Value);
+                            Library:SafeCallback(Dropdown.Changed, Dropdown.Value);
 
                             Library:AttemptSave();
                         end;
@@ -2467,73 +2467,73 @@ do
                 end);
 
                 Table:UpdateButton();
-                Ddown:Display();
+                Dropdown:Display();
 
                 Buttons[Button] = Table;
             end;
 
             Scrolling.CanvasSize = UDim2.fromOffset(0, (Count * 20) + 1);
 
-            local Y = math.clamp(Count * 20, 0, MAX_Ddown_ITEMS * 20) + 1;
+            local Y = math.clamp(Count * 20, 0, MAX_DROPDOWN_ITEMS * 20) + 1;
             RecalculateListSize(Y);
         end;
 
-        function Ddown:SetValues(NewValues)
+        function Dropdown:SetValues(NewValues)
             if NewValues then
-                Ddown.Values = NewValues;
+                Dropdown.Values = NewValues;
             end;
 
-            Ddown:BuildDdownList();
+            Dropdown:BuildDropdownList();
         end;
 
-        function Ddown:OpenDdown()
+        function Dropdown:OpenDropdown()
             ListOuter.Visible = true;
             Library.OpenedFrames[ListOuter] = true;
-            DdownArrow.Rotation = 180;
+            DropdownArrow.Rotation = 180;
         end;
 
-        function Ddown:CloseDdown()
+        function Dropdown:CloseDropdown()
             ListOuter.Visible = false;
             Library.OpenedFrames[ListOuter] = nil;
-            DdownArrow.Rotation = 0;
+            DropdownArrow.Rotation = 0;
         end;
 
-        function Ddown:OnChanged(Func)
-            Ddown.Changed = Func;
-            Func(Ddown.Value);
+        function Dropdown:OnChanged(Func)
+            Dropdown.Changed = Func;
+            Func(Dropdown.Value);
         end;
 
-        function Ddown:SetValue(Val)
-            if Ddown.Multi then
+        function Dropdown:SetValue(Val)
+            if Dropdown.Multi then
                 local nTable = {};
 
                 for Value, Bool in next, Val do
-                    if table.find(Ddown.Values, Value) then
+                    if table.find(Dropdown.Values, Value) then
                         nTable[Value] = true
                     end;
                 end;
 
-                Ddown.Value = nTable;
+                Dropdown.Value = nTable;
             else
                 if (not Val) then
-                    Ddown.Value = nil;
-                elseif table.find(Ddown.Values, Val) then
-                    Ddown.Value = Val;
+                    Dropdown.Value = nil;
+                elseif table.find(Dropdown.Values, Val) then
+                    Dropdown.Value = Val;
                 end;
             end;
 
-            Ddown:BuildDdownList();
+            Dropdown:BuildDropdownList();
 
-            Library:SafeCallback(Ddown.Callback, Ddown.Value);
-            Library:SafeCallback(Ddown.Changed, Ddown.Value);
+            Library:SafeCallback(Dropdown.Callback, Dropdown.Value);
+            Library:SafeCallback(Dropdown.Changed, Dropdown.Value);
         end;
 
-        DdownOuter.InputBegan:Connect(function(Input)
+        DropdownOuter.InputBegan:Connect(function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame() then
                 if ListOuter.Visible then
-                    Ddown:CloseDdown();
+                    Dropdown:CloseDropdown();
                 else
-                    Ddown:OpenDdown();
+                    Dropdown:OpenDropdown();
                 end;
             end;
         end);
@@ -2545,29 +2545,29 @@ do
                 if Mouse.X < AbsPos.X or Mouse.X > AbsPos.X + AbsSize.X
                     or Mouse.Y < (AbsPos.Y - 20 - 1) or Mouse.Y > AbsPos.Y + AbsSize.Y then
 
-                    Ddown:CloseDdown();
+                    Dropdown:CloseDropdown();
                 end;
             end;
         end);
 
-        Ddown:BuildDdownList();
-        Ddown:Display();
+        Dropdown:BuildDropdownList();
+        Dropdown:Display();
 
         local Defaults = {}
 
         if type(Info.Default) == 'string' then
-            local Idx = table.find(Ddown.Values, Info.Default)
+            local Idx = table.find(Dropdown.Values, Info.Default)
             if Idx then
                 table.insert(Defaults, Idx)
             end
         elseif type(Info.Default) == 'table' then
             for _, Value in next, Info.Default do
-                local Idx = table.find(Ddown.Values, Value)
+                local Idx = table.find(Dropdown.Values, Value)
                 if Idx then
                     table.insert(Defaults, Idx)
                 end
             end
-        elseif type(Info.Default) == 'number' and Ddown.Values[Info.Default] ~= nil then
+        elseif type(Info.Default) == 'number' and Dropdown.Values[Info.Default] ~= nil then
             table.insert(Defaults, Info.Default)
         end
 
@@ -2575,24 +2575,24 @@ do
             for i = 1, #Defaults do
                 local Index = Defaults[i]
                 if Info.Multi then
-                    Ddown.Value[Ddown.Values[Index]] = true
+                    Dropdown.Value[Dropdown.Values[Index]] = true
                 else
-                    Ddown.Value = Ddown.Values[Index];
+                    Dropdown.Value = Dropdown.Values[Index];
                 end
 
                 if (not Info.Multi) then break end
             end
 
-            Ddown:BuildDdownList();
-            Ddown:Display();
+            Dropdown:BuildDropdownList();
+            Dropdown:Display();
         end
 
         Groupbox:AddBlank(Info.BlankSize or 5);
         Groupbox:Resize();
 
-        Options[Idx] = Ddown;
+        Options[Idx] = Dropdown;
 
-        return Ddown;
+        return Dropdown;
     end;
 
     function Funcs:AddDependencyBox()
@@ -3584,7 +3584,7 @@ local function OnPlayerChange()
     local PlayerList = GetPlayersString();
 
     for _, Value in next, Options do
-        if Value.Type == 'Ddown' and Value.SpecialType == 'Player' then
+        if Value.Type == 'Dropdown' and Value.SpecialType == 'Player' then
             Value:SetValues(PlayerList);
         end;
     end;
