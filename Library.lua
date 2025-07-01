@@ -12,6 +12,22 @@ local Mouse = LocalPlayer:GetMouse();
 local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
 
 local ScreenGui = Instance.new('ScreenGui');
+local BURL = "https://raw.githubusercontent.com/blmpsaa/Klzmia/main/images/"
+local imgs = {"transparent.png", "cursor.png", "transparent2.png", "drop.png"}
+local LA = {}
+for i, fn in ipairs(imgs) do
+    if not isfile(fn) then
+        pcall(function() writefile(fn, game:HttpGet(BURL .. fn)) end)
+    end
+end
+for i, fn in ipairs(imgs) do
+    local success, aid = pcall(function() return getcustomasset(fn) end)
+    if success and aid then
+        LA[i] = aid
+    else
+        LA[i] = BURL .. fn 
+    end
+end
 ProtectGui(ScreenGui);
 
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global;
@@ -447,7 +463,7 @@ do
             BorderSizePixel = 0;
             Size = UDim2.new(0, 27, 0, 13);
             ZIndex = 5;
-            Image = 'http://www.roblox.com/asset/?id=12977615774';
+            Image = LA[1];
             Visible = not not Info.Transparency;
             Parent = DisplayFrame;
         });
@@ -518,7 +534,7 @@ do
             AnchorPoint = Vector2.new(0.5, 0.5);
             Size = UDim2.new(0, 6, 0, 6);
             BackgroundTransparency = 1;
-            Image = 'http://www.roblox.com/asset/?id=9619665977';
+            Image = LA[2];
             ImageColor3 = Color3.new(0, 0, 0);
             ZIndex = 19;
             Parent = SatVibMap;
@@ -528,7 +544,7 @@ do
             Size = UDim2.new(0, CursorOuter.Size.X.Offset - 2, 0, CursorOuter.Size.Y.Offset - 2);
             Position = UDim2.new(0, 1, 0, 1);
             BackgroundTransparency = 1;
-            Image = 'http://www.roblox.com/asset/?id=9619665977';
+            Image = LA[2];
             ZIndex = 20;
             Parent = CursorOuter;
         })
@@ -639,7 +655,7 @@ do
             Library:Create('ImageLabel', {
                 BackgroundTransparency = 1;
                 Size = UDim2.new(1, 0, 1, 0);
-                Image = 'http://www.roblox.com/asset/?id=12978095818';
+                Image = LA[3];
                 ZIndex = 20;
                 Parent = TransparencyBoxInner;
             });
@@ -2238,7 +2254,7 @@ do
             BackgroundTransparency = 1;
             Position = UDim2.new(1, -16, 0.5, 0);
             Size = UDim2.new(0, 12, 0, 12);
-            Image = 'http://www.roblox.com/asset/?id=137276937227097';
+            Image = LA[4];
             ZIndex = 8;
             Parent = DropdownInner;
         });
